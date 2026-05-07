@@ -13,6 +13,10 @@ st.set_page_config(
 model = joblib.load("churn_model.pkl")
 columns = joblib.load("model_columns.pkl")
 
+@st.cache_data
+def load_reference_data():
+    return pd.read_csv("churn_clean.csv")
+
 # app title
 st.title("ChurnShield")
 st.write("Predict whether a customer is likely to cancel their subscription.")
@@ -165,7 +169,7 @@ if st.button("Predict churn risk"):
         st.write("No major risk factors detected.")
 
     st.subheader("How this customer compares")
-    df_ref = pd.read_csv("churn_clean.csv")
+    df_ref = load_reference_data()
 
     fig, axes = plt.subplots(1, 2, figsize=(10, 3))
 
